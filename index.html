@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ebony Jabari — Preparação para Cape Town</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --magenta:#5D1D42; --rosa:#8C183F; --vermelho:#EF4957;
+    --laranja:#F68C72; --cream:#FBF6F2; --ink:#1C1014;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Outfit',system-ui,sans-serif;color:var(--ink);
+    background:radial-gradient(circle at 20% 0%, #8C183F22, transparent 40%), var(--cream);
+    min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+  .card{width:100%;max-width:460px;background:#fff;border-radius:24px;padding:40px 34px;
+    box-shadow:0 24px 60px -20px rgba(93,29,66,.35)}
+  .eyebrow{font-size:11px;letter-spacing:2px;font-weight:700;color:var(--vermelho);margin-bottom:18px}
+  h1{font-family:'Fraunces',Georgia,serif;font-size:30px;line-height:1.12;font-weight:600;
+    margin:0 0 16px;color:var(--magenta)}
+  .lede{font-size:15px;line-height:1.55;color:#5b4750;margin:0 0 24px}
+  label{display:block;font-size:13px;font-weight:600;margin-bottom:7px;color:var(--magenta)}
+  .field{margin-bottom:16px}
+  input{width:100%;padding:13px 15px;font-size:15px;border-radius:12px;
+    border:1.5px solid #e7d9df;outline:none;font-family:inherit;background:var(--cream)}
+  .cta{width:100%;margin-top:10px;padding:15px;font-size:16px;font-weight:700;color:#fff;
+    background:linear-gradient(135deg,var(--rosa),var(--vermelho));border:none;border-radius:14px;
+    cursor:pointer;font-family:inherit;box-shadow:0 10px 24px -8px #EF4957aa;transition:opacity .2s}
+  .cta:disabled{opacity:.45;cursor:default}
+  .fine{font-size:12px;color:#9a8a90;text-align:center;margin-top:16px;line-height:1.4}
+  .hero{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+  .hero img{width:110px;height:150px;object-fit:cover;object-position:top center;
+    border-radius:16px;flex-shrink:0;background:var(--cream)}
+  .hero h1{font-size:26px;margin:8px 0 0}
+  ul.list{list-style:none;padding:0;margin:0 0 22px}
+  ul.list li{display:flex;gap:10px;font-size:14.5px;line-height:1.5;color:#4b3a41;margin-bottom:13px}
+  .mark{color:var(--vermelho);font-weight:700}
+  .chat{width:100%;max-width:460px;height:90vh;max-height:760px;background:#fff;border-radius:24px;
+    display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 60px -20px rgba(93,29,66,.35)}
+  .chead{display:flex;align-items:center;gap:12px;padding:16px 20px;
+    background:linear-gradient(135deg,var(--magenta),var(--rosa));color:#fff}
+  .cavatar{width:44px;height:44px;border-radius:14px;overflow:hidden;flex-shrink:0;
+    border:2px solid rgba(255,255,255,.5)}
+  .cavatar img{width:100%;height:100%;object-fit:cover;display:block}
+  .cname{font-weight:700;font-size:16px}
+  .csub{font-size:12px;opacity:.85}
+  .scroll{flex:1;overflow-y:auto;padding:18px 16px;background:var(--cream)}
+  .row{display:flex;margin-bottom:12px}
+  .bubble{max-width:82%;padding:11px 15px;border-radius:16px;font-size:14.5px;
+    line-height:1.5;white-space:pre-wrap}
+  .bot{background:#fff;color:var(--ink);border-bottom-left-radius:4px;
+    box-shadow:0 2px 8px rgba(93,29,66,.08)}
+  .user{background:var(--magenta);color:#fff;border-bottom-right-radius:4px}
+  .inbar{display:flex;gap:8px;padding:12px;border-top:1px solid #f0e6ea;background:#fff}
+  .inbar input{flex:1}
+  .send{width:46px;border-radius:12px;border:none;cursor:pointer;font-size:18px;color:#fff;
+    background:linear-gradient(135deg,var(--rosa),var(--vermelho))}
+  .send:disabled{opacity:.5}
+  .hidden{display:none}
+  .dots{letter-spacing:2px;color:var(--rosa);font-size:10px}
+</style>
+</head>
+<body>
+
+<div class="card" id="screen-capture">
+  <div class="eyebrow">EBONY MEETING · 01.07 · CAPE TOWN</div>
+  <h1>Antes de você embarcar,<br>vamos preparar o terreno.</h1>
+  <p class="lede">Sou a Ebony Jabari, sua preparadora. Em alguns minutos a gente conversa sobre o seu intercâmbio, eu sinto o seu inglês em situações reais de trabalho e te mostro, com honestidade, onde você está e o que falta pra Cape Town valer cada centavo.</p>
+  <div class="field">
+    <label>Como você se chama?</label>
+    <input id="in-name" placeholder="Seu nome">
+  </div>
+  <div class="field">
+    <label>WhatsApp (pra Juliana te dar continuidade)</label>
+    <input id="in-wpp" placeholder="(00) 00000-0000" inputmode="tel">
+  </div>
+  <button class="cta" id="btn-welcome" disabled>Começar a preparação 👉🏿</button>
+  <p class="fine">Sua conversa fica salva pra você continuar e pra Juliana te acompanhar de perto.</p>
+</div>
+
+<div class="card hidden" id="screen-welcome">
+  <div class="hero">
+    <img src="jabari-full.jpg" alt="Ebony Jabari">
+    <div>
+      <div class="eyebrow">OI, EU SOU A JABARI 👋🏿</div>
+      <h1>Sua preparadora<br>pra Cape Town.</h1>
+    </div>
+  </div>
+  <p class="lede">Prazer, <span id="wname">!</span> Pensa em mim como uma consultora de bolso pra te ajudar a chegar em Cape Town pronto de verdade. Aqui você pode:</p>
+  <ul class="list">
+    <li><span class="mark">—</span><span><b>Tirar dúvidas reais</b> sobre o intercâmbio: custo de vida, visto, segurança, o que esperar de Cape Town, medo de não falar inglês.</span></li>
+    <li><span class="mark">—</span><span><b>Conversar comigo em situações do dia a dia</b> de trabalho e viagem. Vou jogando contigo e, no caminho, te dou uma leitura honesta de onde o seu inglês está hoje.</span></li>
+    <li><span class="mark">—</span><span><b>Entender o que falta</b> pra você aproveitar cada dia lá fora — e como a Juliana e a Ebony entram nessa preparação.</span></li>
+  </ul>
+  <p class="lede">Sem pressa e sem certo ou errado. Quanto mais real você for comigo, melhor eu te preparo. Bora? 🙏🏿</p>
+  <button class="cta" id="btn-start">Começar a conversa 👉🏿</button>
+</div>
+
+<div class="chat hidden" id="screen-chat">
+  <div class="chead">
+    <div class="cavatar"><img src="jabari-avatar.jpg" alt="Jabari"></div>
+    <div>
+      <div class="cname">Ebony Jabari</div>
+      <div class="csub">preparação pra Cape Town · <span id="cname-first"></span></div>
+    </div>
+  </div>
+  <div class="scroll" id="scroll"></div>
+  <div class="inbar">
+    <input id="chat-input" placeholder="Escreva aqui…">
+    <button class="send" id="btn-send">➤</button>
+  </div>
+</div>
+
+<script>
+  const state = { name:"", whatsapp:"", messages:[], loading:false };
+  const $ = (id)=>document.getElementById(id);
+
+  function validate(){
+    const ok = $("in-name").value.trim() && $("in-wpp").value.trim();
+    $("btn-welcome").disabled = !ok;
+  }
+  $("in-name").addEventListener("input", validate);
+  $("in-wpp").addEventListener("input", validate);
+
+  $("btn-welcome").addEventListener("click", ()=>{
+    state.name = $("in-name").value.trim();
+    state.whatsapp = $("in-wpp").value.trim();
+    const first = state.name.split(" ")[0];
+    $("wname").textContent = first + "!";
+    $("cname-first").textContent = first;
+    $("screen-capture").classList.add("hidden");
+    $("screen-welcome").classList.remove("hidden");
+    fetch("/api/lead",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({name:state.name,whatsapp:state.whatsapp})}).catch(()=>{});
+  });
+
+  $("btn-start").addEventListener("click", startChat);
+
+  function addBubble(role, text){
+    const row = document.createElement("div");
+    row.className = "row";
+    row.style.justifyContent = role==="user" ? "flex-end" : "flex-start";
+    const b = document.createElement("div");
+    b.className = "bubble " + (role==="user" ? "user" : "bot");
+    b.textContent = text;
+    row.appendChild(b);
+    $("scroll").appendChild(row);
+    $("scroll").scrollTop = $("scroll").scrollHeight;
+    return b;
+  }
+  function showTyping(){
+    const row = document.createElement("div");
+    row.className="row"; row.id="typing"; row.style.justifyContent="flex-start";
+    row.innerHTML='<div class="bubble bot"><span class="dots">● ● ●</span></div>';
+    $("scroll").appendChild(row); $("scroll").scrollTop=$("scroll").scrollHeight;
+  }
+  function hideTyping(){ const t=$("typing"); if(t) t.remove(); }
+
+  async function callAPI(){
+    const res = await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({messages:state.messages})});
+    const data = await res.json();
+    if(!res.ok) throw new Error(data.error||"erro");
+    return data.reply;
+  }
+
+  async function startChat(){
+    $("screen-welcome").classList.add("hidden");
+    $("screen-chat").classList.remove("hidden");
+    state.messages = [{role:"user",content:`Meu nome é ${state.name}. Acabei de entrar no preparatório do Ebony Meeting.`}];
+    showTyping();
+    try{
+      const reply = await callAPI();
+      hideTyping();
+      state.messages.push({role:"assistant",content:reply});
+      addBubble("assistant", reply);
+    }catch(e){
+      hideTyping();
+      addBubble("assistant", `Oi, ${state.name.split(" ")[0]}! 👋🏿 Bem-vindo ao preparatório do Ebony Meeting. Tive um probleminha de conexão — me manda um "oi" que a gente começa.`);
+    }
+  }
+
+  async function send(){
+    const val = $("chat-input").value.trim();
+    if(!val || state.loading) return;
+    state.loading = true;
+    $("btn-send").disabled = true;
+    addBubble("user", val);
+    state.messages.push({role:"user",content:val});
+    $("chat-input").value="";
+    showTyping();
+    try{
+      const reply = await callAPI();
+      hideTyping();
+      state.messages.push({role:"assistant",content:reply});
+      addBubble("assistant", reply);
+    }catch(e){
+      hideTyping();
+      addBubble("assistant","Opa, falhou a conexão aqui. Tenta de novo em um instante 🙏🏿");
+    }
+    state.loading=false;
+    $("btn-send").disabled=false;
+    $("chat-input").focus();
+  }
+  $("btn-send").addEventListener("click", send);
+  $("chat-input").addEventListener("keydown",(e)=>{ if(e.key==="Enter") send(); });
+</script>
+</body>
+</html>
