@@ -1,6 +1,6 @@
 // /api/summary.js
-// Recebe a conversa + o personId do lead, pede à IA um resumo no formato do
-// Playbook de Vendas da Ebony, e grava como NOTA no lead/pessoa do Pipedrive.
+// Gera o briefing (formato Playbook) e grava como NOTA no LEAD da campanha.
+// Recebe messages + leadId + personId + name do navegador.
 
 const SUMMARY_PROMPT = `Você é um analista de vendas da Ebony English. Recebeu a transcrição de uma conversa entre a assistente Jabari e um possível aluno interessado em intercâmbio em Cape Town.
 
@@ -34,19 +34,18 @@ export default async function handler(req, res) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   const token = process.env.PIPEDRIVE_API_TOKEN;
   const domain = process.env.PIPEDRIVE_DOMAIN;
+  const campanha = process.env.CAMPANHA || "Ebony Meeting";
 
   try {
-    const { messages, personId, name } = req.body;
+    const { messages, personId, leadId, name } = req.body;
     if (!Array.isArray(messages) || messages.length < 2) {
       return res.status(200).json({ ok: false, skipped: "conversa curta demais" });
     }
 
-    // 1) Monta a transcrição legível
     const transcript = messages
       .map((m) => `${m.role === "user" ? "ALUNO" : "JABARI"}: ${m.content}`)
       .join("\n");
 
-    // 2) Pede o resumo à IA
     let summary = "(resumo não gerado)";
     if (apiKey) {
       const aiRes = await fetch("https://api.anthropic.com/v1/messages", {
@@ -73,21 +72,22 @@ export default async function handler(req, res) {
       }
     }
 
-    // 3) Grava como nota no Pipedrive (vinculada à pessoa do lead)
-    if (token && domain && personId) {
+    // Grava a nota — preferência no LEAD da campanha; se não houver leadId, cai na pessoa.
+    if (token && domain && (leadId || personId)) {
       const base = `https://${domain}.pipedrive.com/api/v1`;
       const noteContent =
-        `<b>BRIEFING JABARI — Ebony Meeting</b><br><br>` +
+        `<b>BRIEFING JABARI — ${campanha}</b><br><br>` +
         summary.replace(/\n/g, "<br>") +
         `<br><br><i>— resumo automático da conversa com a assistente Jabari</i>`;
+
+      const noteBody = { content: noteContent };
+      if (leadId) noteBody.lead_id = leadId;
+      else noteBody.person_id = personId;
 
       await fetch(`${base}/notes?api_token=${token}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          content: noteContent,
-          person_id: personId,
-        }),
+        body: JSON.stringify(noteBody),
       });
     }
 
