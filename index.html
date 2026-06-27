@@ -119,7 +119,7 @@
 </div>
 
 <script>
-  const state = { name:"", whatsapp:"", email:"", messages:[], loading:false, personId:null, summarySent:false };
+  const state = { name:"", whatsapp:"", email:"", messages:[], loading:false, personId:null, leadId:null, summarySent:false };
   const $ = (id)=>document.getElementById(id);
 
   function validate(){
@@ -141,7 +141,7 @@
     $("screen-welcome").classList.remove("hidden");
     fetch("/api/lead",{method:"POST",headers:{"Content-Type":"application/json"},
       body:JSON.stringify({name:state.name,whatsapp:state.whatsapp,email:state.email})})
-      .then(r=>r.json()).then(d=>{ if(d && d.personId) state.personId = d.personId; })
+      .then(r=>r.json()).then(d=>{ if(d){ if(d.personId) state.personId=d.personId; if(d.leadId) state.leadId=d.leadId; } })
       .catch(()=>{});
   });
 
@@ -155,7 +155,7 @@
     if(!state.messages || state.messages.length < 3) return;
     state.summarySent = true;
     const payload = JSON.stringify({
-      messages: state.messages, personId: state.personId, name: state.name
+      messages: state.messages, personId: state.personId, leadId: state.leadId, name: state.name
     });
     try{
       if(navigator.sendBeacon){
