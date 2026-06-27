@@ -38,7 +38,6 @@
   ul.list{list-style:none;padding:0;margin:0 0 22px}
   ul.list li{display:flex;gap:10px;font-size:14.5px;line-height:1.5;color:#4b3a41;margin-bottom:13px}
   .mark{color:var(--vermelho);font-weight:700}
-  /* chat */
   .chat{width:100%;max-width:460px;height:90vh;max-height:760px;background:#fff;border-radius:24px;
     display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 60px -20px rgba(93,29,66,.35)}
   .chead{display:flex;align-items:center;gap:12px;padding:16px 20px;
@@ -66,7 +65,6 @@
 </head>
 <body>
 
-<!-- TELA 1: CAPTURA -->
 <div class="card" id="screen-capture">
   <div class="eyebrow">EBONY MEETING · 01.07 · CAPE TOWN</div>
   <h1>Antes de você embarcar,<br>vamos preparar o terreno.</h1>
@@ -83,7 +81,6 @@
   <p class="fine">Sua conversa fica salva pra você continuar e pra Juliana te acompanhar de perto.</p>
 </div>
 
-<!-- TELA 2: BOAS-VINDAS -->
 <div class="card hidden" id="screen-welcome">
   <div class="hero">
     <img src="jabari-full.jpg" alt="Ebony Jabari">
@@ -102,7 +99,6 @@
   <button class="cta" id="btn-start">Começar a conversa 👉🏿</button>
 </div>
 
-<!-- TELA 3: CHAT -->
 <div class="chat hidden" id="screen-chat">
   <div class="chead">
     <div class="cavatar"><img src="jabari-avatar.jpg" alt="Jabari"></div>
@@ -119,10 +115,9 @@
 </div>
 
 <script>
-  const state = { name:"", whatsapp:"", messages:[], loading:false };
+  const state = { name:"", whatsapp:"", messages:[], loading:false, personId:null, summarySent:false };
   const $ = (id)=>document.getElementById(id);
 
-  // captura
   function validate(){
     const ok = $("in-name").value.trim() && $("in-wpp").value.trim();
     $("btn-welcome").disabled = !ok;
@@ -138,10 +133,34 @@
     $("cname-first").textContent = first;
     $("screen-capture").classList.add("hidden");
     $("screen-welcome").classList.remove("hidden");
-    // registra o lead no Pipedrive (silencioso, não trava nada)
     fetch("/api/lead",{method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({name:state.name,whatsapp:state.whatsapp})}).catch(()=>{});
+      body:JSON.stringify({name:state.name,whatsapp:state.whatsapp})})
+      .then(r=>r.json()).then(d=>{ if(d && d.personId) state.personId = d.personId; })
+      .catch(()=>{});
   });
+
+  let inactivityTimer = null;
+  function scheduleSummary(){
+    if(inactivityTimer) clearTimeout(inactivityTimer);
+    inactivityTimer = setTimeout(sendSummary, 90000);
+  }
+  function sendSummary(){
+    if(state.summarySent) return;
+    if(!state.messages || state.messages.length < 3) return;
+    state.summarySent = true;
+    const payload = JSON.stringify({
+      messages: state.messages, personId: state.personId, name: state.name
+    });
+    try{
+      if(navigator.sendBeacon){
+        navigator.sendBeacon("/api/summary", new Blob([payload], {type:"application/json"}));
+      } else {
+        fetch("/api/summary",{method:"POST",headers:{"Content-Type":"application/json"},body:payload,keepalive:true}).catch(()=>{});
+      }
+    }catch(e){}
+  }
+  window.addEventListener("pagehide", sendSummary);
+  window.addEventListener("beforeunload", sendSummary);
 
   $("btn-start").addEventListener("click", startChat);
 
@@ -210,6 +229,7 @@
     state.loading=false;
     $("btn-send").disabled=false;
     $("chat-input").focus();
+    scheduleSummary();
   }
   $("btn-send").addEventListener("click", send);
   $("chat-input").addEventListener("keydown",(e)=>{ if(e.key==="Enter") send(); });
