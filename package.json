@@ -1,0 +1,7 @@
+{
+  "name": "ebony-jabari",
+  "version": "1.0.0",
+  "description": "Ebony Jabari — robô de preparação para o Ebony Meeting (intercâmbio em Cape Town)",
+  "private": true,
+  "type": "module"
+}
