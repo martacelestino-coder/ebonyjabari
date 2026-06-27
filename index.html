@@ -77,6 +77,10 @@
     <label>WhatsApp (pra Juliana te dar continuidade)</label>
     <input id="in-wpp" placeholder="(00) 00000-0000" inputmode="tel">
   </div>
+  <div class="field">
+    <label>Seu melhor e-mail</label>
+    <input id="in-email" placeholder="voce@email.com" inputmode="email">
+  </div>
   <button class="cta" id="btn-welcome" disabled>Começar a preparação 👉🏿</button>
   <p class="fine">Sua conversa fica salva pra você continuar e pra Juliana te acompanhar de perto.</p>
 </div>
@@ -115,26 +119,28 @@
 </div>
 
 <script>
-  const state = { name:"", whatsapp:"", messages:[], loading:false, personId:null, summarySent:false };
+  const state = { name:"", whatsapp:"", email:"", messages:[], loading:false, personId:null, summarySent:false };
   const $ = (id)=>document.getElementById(id);
 
   function validate(){
-    const ok = $("in-name").value.trim() && $("in-wpp").value.trim();
+    const ok = $("in-name").value.trim() && $("in-wpp").value.trim() && $("in-email").value.trim();
     $("btn-welcome").disabled = !ok;
   }
   $("in-name").addEventListener("input", validate);
   $("in-wpp").addEventListener("input", validate);
+  $("in-email").addEventListener("input", validate);
 
   $("btn-welcome").addEventListener("click", ()=>{
     state.name = $("in-name").value.trim();
     state.whatsapp = $("in-wpp").value.trim();
+    state.email = $("in-email").value.trim();
     const first = state.name.split(" ")[0];
     $("wname").textContent = first + "!";
     $("cname-first").textContent = first;
     $("screen-capture").classList.add("hidden");
     $("screen-welcome").classList.remove("hidden");
     fetch("/api/lead",{method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({name:state.name,whatsapp:state.whatsapp})})
+      body:JSON.stringify({name:state.name,whatsapp:state.whatsapp,email:state.email})})
       .then(r=>r.json()).then(d=>{ if(d && d.personId) state.personId = d.personId; })
       .catch(()=>{});
   });
